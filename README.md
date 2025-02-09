@@ -65,18 +65,10 @@ npm run dev
 O projeto foi estruturado da seguinte forma:
 
 my-todo-app/
-│── src/
-│   ├── components/
-│   │   ├── Filter.jsx
-│   │   ├── Search.jsx
-│   │   ├── Todo.jsx
-│   │   ├── TodoForm.jsx
-│   ├── App.jsx
-│   ├── main.jsx
-│── public/
-│── index.html
-│── package.json
-│── vite.config.js
+
+- **Filter e Search**: Rithiellen
+- **Todo e TodoForm**: Mateus
+- **App.jsx, App.css, main, index **: Carlos Henrique
 
 
 ### 5.1 Componentes Desenvolvidos
@@ -123,7 +115,7 @@ const TodoFormes = ({addTodo}) => {
 
 export default TodoFormes;
 
-```
+``` 
 
 #### 2 Criar Componente de Item de Tarefa (Todo.jsx)
 
@@ -444,16 +436,16 @@ Acesse [http://localhost:5173](http://localhost:5173) para ver a aplicação fun
 ### 7. Imagens do Processo
 
 **Tela Inicial**
-![Texto Alternativo](URL-da-imagem)
+![Texto Alternativo](public/1_tela_inicia.png)
 
 **Pesquisa**
-![Texto Alternativo](URL-da-imagem)
+![Texto Alternativo](2_pesquisa)
 
 **Adicionando uma Tarefa:**
-![Texto Alternativo](URL-da-imagem)
+![Texto Alternativo](3_adc)
 
 **Filtrando e Ordenando:**
-![Texto Alternativo](URL-da-imagem)
+![Texto Alternativo](4_filtro_b)
 
 ### 8. Conclusão
 
