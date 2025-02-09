@@ -439,13 +439,13 @@ Acesse [http://localhost:5173](http://localhost:5173) para ver a aplicação fun
 ![Texto Alternativo](public/1_tela_inicia.png)
 
 **Pesquisa**
-![Texto Alternativo](public/2_pesquisa)
+![Texto Alternativo](public/2_pesquisa.png)
 
 **Adicionando uma Tarefa:**
-![Texto Alternativo](public/3_adc)
+![Texto Alternativo](public/3_adc.png)
 
 **Filtrando e Ordenando:**
-![Texto Alternativo](public/4_filtro_b)
+![Texto Alternativo](public/4_filtro_b.png)
 
 ### 8. Conclusão
 
