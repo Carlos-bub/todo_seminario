@@ -34,7 +34,14 @@ npm -v
    - **Prettier**: Para formatação automática.
    - **React Developer Tools**: Integração com React.
 
-#### Passo 3: Criar um Projeto com Vite.js
+### Passo 3: Criar o Repositório no GitHub
+1. Acesse o [GitHub](https://github.com/) e crie um novo repositório vazio.
+2. Copie a URL do repositório e inicialize o repositório localmente:
+   ```sh
+   git init
+   git remote add origin <URL_DO_REPOSITORIO>
+
+#### Passo 4: Criar um Projeto com Vite.js
 
 1. Execute no terminal do VSCode:
 
@@ -54,149 +61,377 @@ npm run dev
 
 ---
 
-### 2. Limpar Código Boilerplate
+### 5 Estrutura do Projeto
+O projeto foi estruturado da seguinte forma:
 
-No arquivo `App.jsx`, remova o código padrão e deixe apenas a estrutura necessária.
+my-todo-app/
+│── src/
+│   ├── components/
+│   │   ├── Filter.jsx
+│   │   ├── Search.jsx
+│   │   ├── Todo.jsx
+│   │   ├── TodoForm.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│── public/
+│── index.html
+│── package.json
+│── vite.config.js
 
----
 
-### 3. Estruturar o Componente Principal (`App.jsx`)
+### 5.1 Componentes Desenvolvidos
 
-#### 3.1 Criar Estado para as Tarefas
+#### 1 Criar Componente de Formulário (TodoForm.jsx)
 
+Permite a adição de novas tarefas.
 ```jsx
-const [todos, setTodos] = useState([]);
-```
+import {useState} from 'react'
 
-#### 3.2 Adicionar Tarefas (Função `addTodo`)
+const TodoFormes = ({addTodo}) => {
+    const [value, setValue] = useState ("");
+    const [category, setCategory] = useState("");
 
-```jsx
-const addTodo = (text) => {
-  const newTodo = { id: Date.now(), text, completed: false };
-  setTodos([...todos, newTodo]);
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(!value || !category) return;
+        addTodo(value, category);
+        setValue("");
+        setCategory("");
+    };
+
+  return (
+    <div className='todo-form'>
+        <h2>Criar Tarefas:</h2>
+         <form onSubmit={handleSubmit}>
+            <input  
+                type="text" 
+                placeholder='Digite o Título'
+                value={value} 
+                onChange={(e) => setValue(e.target.value)} 
+            />
+            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="Selecione uma Categória">Selecione uma Categória</option>
+                <option value="Trabalho">Trabalho</option>
+                <option value="Estudo">Estudo</option>
+                <option value="Pessoal">Pessoal</option>
+                <option value="Outros">Outros</option>
+            </select>
+        <button type='Submit'>Criar Tarefa</button> 
+         </form>
+    </div>)
 };
+
+export default TodoFormes;
+
 ```
 
----
+#### 2 Criar Componente de Item de Tarefa (Todo.jsx)
 
-### 4. Criar o Componente `TodoForm`
-
-#### 4.1 Arquivo `TodoForm.jsx`
+Exibe uma tarefa com opções para concluir ou remover.
 
 ```jsx
-function TodoForm({ addTodo }) {
-  const [value, setValue] = useState("");
+import React from 'react'
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!value.trim()) return;
-    addTodo(value);
-    setValue("");
-  };
-
+const Todo = ({todo, removeTodo, completeTodo}) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
-      <button type="submit">Adicionar</button>
-    </form>
+    <div className="todo" 
+    style={{ textDecoration: todo.isCompleted ? "line-through": "" }}
+    >
+
+        <div className="content">
+              <p>{todo.text}</p> 
+              <p className="category">({todo.category})</p>
+        </div>
+        <div> 
+            <button className='complete'onClick={() => completeTodo(todo.id)}>
+                Completar
+            </button>
+            <button className='remove'onClick={() => removeTodo(todo.id)}>
+                X
+            </button>
+        </div>
+    </div> 
   );
-}
-```
+};
 
-#### 4.2 Importar em `App.jsx`
+export default Todo;
 
-```jsx
-import TodoForm from "./TodoForm";
 ```
 
 ---
 
-### 5. Criar o Componente `Todo`
 
-#### 5.1 Arquivo `Todo.jsx`
+#### 3. Criar Componente de Pessquisa (Search.jsx)
+
+Pesquisa as tarefas.
 
 ```jsx
-function Todo({ todo, completeTodo, removeTodo }) {
+const Search = ({ search, setSearch }) => {
   return (
-    <div style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
-      {todo.text}
-      <button onClick={() => completeTodo(todo.id)}>✔</button>
-      <button onClick={() => removeTodo(todo.id)}>❌</button>
+    <div className="search">
+        <h2>Pesquisar:</h2>
+        <input 
+            type="text" 
+            value={search} 
+            onChange={(e) => setSearch(e.target.value)} 
+            placeholder="Digite para pesquisar..." 
+        />
     </div>
   );
-}
+};
+
+export default Search
+
+
 ```
 
-#### 5.2 Funções `removeTodo` e `completeTodo` em `App.jsx`
+####  4. Criar Componente de Filtro e Ordenação (Filter.jsx)
+
+Permite filtrar e ordenar as tarefas.
 
 ```jsx
-const completeTodo = (id) => {
-  setTodos(
-    todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    )
-  );
+const Filter = ({ filter, setFilter, setSort }) => {
+  return (
+    <div className="filter">
+      <h2>Filtrar:</h2>
+      <div className="filter-options">
+        <div>
+            <p>Status: </p>
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+                <option value="All">Todas</option>
+                <option value="Completed">Completas</option>
+                <option value="Incompleted">Incompletas</option>
+            </select>
+        </div>
+        <div>
+            <p>Ordem Alfabética</p>
+            <button onClick={() => setSort("Asc")}>Asc</button>
+            <button onClick={() => setSort("Desc")}>Desc</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Filter
+```
+
+---
+
+### 5.2 Implementação no App.jsx
+
+```jsx
+import { useState } from 'react'
+
+import Todo from './components/Todo.jsx';
+import TodoFormes from './components/TodoFormes.jsx';
+import Search from './components/Search.jsx';
+import Filter from './components/Filter.jsx';
+
+import "./App.css"; 
+
+function App() {
+  const [todos, setTodos] = useState([
+    {
+      id:1,
+      text: "Criar funcionalidade x no sistema",
+      category: "Trabalho",
+      isCompleted: false,
+    },
+    {
+      id:2,
+      text: "Ir pra academia",
+      category: "Pessoal",
+      isCompleted: false,
+    },
+    {
+      id:3,
+      text: "Estudar React",
+      category: "Estudos",
+      isCompleted: false,
+    }
+  ])
+
+  const [search, setSearch] = useState("");
+
+  const [filter, setFilter] = useState("All");
+  const [sort, setSort] = useState("Asc");
+
+  const addTodo = (text, category) => {
+    const newTodos = [
+      ...todos,
+      {
+      id: Math.floor(Math.random() * 1000),
+      text,
+      category,
+      isCompleted:false,
+    },
+  ];
+
+  setTodos (newTodos);
 };
 
 const removeTodo = (id) => {
-  setTodos(todos.filter(todo => todo.id !== id));
-};
-```
-
----
-
-### 6. Implementar Busca e Filtros
-
-#### 6.1 Componente `Search.jsx`
-
-```jsx
-function Search({ setSearch }) {
-  return (
-    <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Buscar tarefas..." />
+  const newTodos = [...todos]
+  const filteredTodos = newTodos.filter(todo => 
+    todo.id !== id ? todo: null
   );
+  setTodos(filteredTodos);
 }
-```
 
-#### 6.2 Componente `Filter.jsx`
+const completeTodo = (id) => {
+    const newTodos = [...todos]
+    newTodos.map((todo) => todo.id === id ? todo.isCompleted = !todo.isCompleted : todo)
+    setTodos(newTodos); 
+}
 
-```jsx
-function Filter({ setFilter }) {
   return (
-    <select onChange={(e) => setFilter(e.target.value)}>
-      <option value="all">Todas</option>
-      <option value="completed">Concluídas</option>
-      <option value="pending">Pendentes</option>
-    </select>
+    <div className='app'>
+      <h1>Lista de Tarefas</h1> 
+      <Search search={search} setSearch={setSearch} />
+      <Filter filter={filter} setFilter={setFilter} setSort={setSort}/>
+      <div className='todo-list'>
+        {todos
+        .filter((todo) => 
+          filter === "All" 
+            ? true 
+            : filter === "Completed" 
+            ? todo.isCompleted 
+            : !todo.isCompleted
+          )
+        .filter((todo) => 
+          todo.text.toLowerCase().includes(search.toLowerCase())
+        )
+        .sort((a, b) => sort === "Asc" 
+          ? a.text.localeCompare(b.text) 
+          : b.text.localeCompare(a.text)
+        )
+        .map((todo)=> (
+          <Todo 
+            key={todo.id} 
+            todo={todo} 
+            removeTodo={removeTodo} 
+            completeTodo={completeTodo} 
+          />
+        ))}
+      </div>
+      <TodoFormes addTodo={addTodo}/>
+    </div>
   );
-}
+} 
+export default App;
+
 ```
 
-#### 6.3 Integrar em `App.jsx`
-
-```jsx
-const [search, setSearch] = useState("");
-const [filter, setFilter] = useState("all");
-```
-
----
-
-### 7. Estilização com CSS
-
-Crie um arquivo `App.css` e adicione estilos personalizados.
+### 5.3 Estilização (App.css)
 
 ```css
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  padding: 30px;
+  color: #333;
+  background-image: url('img/Back.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto 300px;
+  background-color: #efefef;
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+p{
+  margin: 10px 0;
+}
+
+input {
+  box-sizing: border-box;
+}
+
+button{
+  background-color: #f0401e;
+  color: #fff;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+.todo-list {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #555;
+}
+
+.todo {
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
+}
+.complete {
+  background-color: #5cb85c;
+}
+
+.remove {
+  background-color: #d9534f;
+}
+
+.todo-form {
+  padding-bottom: 1.5rem;
+}
+
+input,select{
+  padding: 5px;
+  margin-bottom: 10px
+  border 1px solid #ddd;
+  border-radius: 3px;
+  width: 100%;
+}
+
+filter, search {
+  border-bottom: 1px solid #555;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.filter-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.filter-options div {
+  flex: 1 1 0;
 }
 ```
 
 ---
 
-### 8. Executar o Projeto
+### 6. Executar o Projeto
 
 Execute no terminal do VSCode:
 
@@ -205,3 +440,24 @@ npm run dev
 ```
 
 Acesse [http://localhost:5173](http://localhost:5173) para ver a aplicação funcionando!
+
+### 7. Imagens do Processo
+
+**Tela Inicial**
+![Texto Alternativo](URL-da-imagem)
+
+**Pesquisa**
+![Texto Alternativo](URL-da-imagem)
+
+**Adicionando uma Tarefa:**
+![Texto Alternativo](URL-da-imagem)
+
+**Filtrando e Ordenando:**
+![Texto Alternativo](URL-da-imagem)
+
+### 8. Conclusão
+
+Este projeto demonstrou como criar uma lista de tarefas interativa com React e Vite.js. Exploramos conceitos de estado, componentes funcionais e interatividade do usuário. Possíveis melhorias incluem a persistência de dados via localStorage e uma interface aprimorada com TailwindCSS.
+
+
+
