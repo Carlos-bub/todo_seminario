@@ -66,8 +66,8 @@ O projeto foi estruturado da seguinte forma:
 
 my-todo-app/
 
-- **Filter e Search**: Rithiellen
-- **Todo e TodoForm**: Mateus
+- **Filter e Search**: Rithiellen Kariny
+- **Todo e TodoForm**: Mateus Henrique
 - **App.jsx, App.css, main, index**: Carlos Henrique
 
 
@@ -153,7 +153,7 @@ export default Todo;
 ---
 
 
-#### 3. Criar Componente de Pessquisa (Search.jsx)
+#### 3. Criar Componente de Pesquisa (Search.jsx)
 
 Pesquisa as tarefas.
 
@@ -435,10 +435,10 @@ Acesse [http://localhost:5173](http://localhost:5173) para ver a aplicação fun
 
 ### 7. Imagens do Processo
 
-**Tela Inicial**
+**Tela Inicial:**
 ![Texto Alternativo](public/1_tela_inicia.png)
 
-**Pesquisa**
+**Pesquisa:**
 ![Texto Alternativo](public/2_pesquisa.png)
 
 **Adicionando uma Tarefa:**
