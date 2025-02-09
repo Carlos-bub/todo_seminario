@@ -68,7 +68,7 @@ my-todo-app/
 
 - **Filter e Search**: Rithiellen
 - **Todo e TodoForm**: Mateus
-- **App.jsx, App.css, main, index **: Carlos Henrique
+- **App.jsx, App.css, main, index**: Carlos Henrique
 
 
 ### 5.1 Componentes Desenvolvidos
