@@ -64,8 +64,6 @@ npm run dev
 ### 5 Estrutura do Projeto
 O projeto foi estruturado da seguinte forma:
 
-my-todo-app/
-
 - **Filter e Search**: Rithiellen Kariny
 - **Todo e TodoForm**: Mateus Henrique
 - **App.jsx, App.css, main, index**: Carlos Henrique
